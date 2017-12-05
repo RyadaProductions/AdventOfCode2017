@@ -1,108 +1,91 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Day3 {
-    class Program {
+namespace Day3
+{
+    class Program
+    {
+        private static int _solution, _solution2;
+        private static int _row, _column;
+        private static int[,] _matrix;
+
         static void Main(string[] args)
         {
-            //17  16  15  14  13
-            //18   5   4   3  12
-            //19   6   1   2  11
-            //20   7   8   9  10
-            //21  22  23---> ...
-            // 23 sqrt = 4.7
-            // 4.7 ceiling = 5
-            // 5 / 2 ceiling = 3 columns/rows from center
-            Console.Write("Enter n: " + Environment.NewLine);
-            var maxNumber = Convert.ToInt32(Console.ReadLine());
-            var input = Convert.ToInt32(Math.Ceiling(Math.Sqrt(maxNumber)));
-            var matrix = new int[input + 1, input + 1];
-            var row = Convert.ToInt32(Math.Ceiling((double)input / 2));
-            var column = Convert.ToInt32(Math.Ceiling((double)input / 2));
-            var originrow = Convert.ToInt32(Math.Ceiling((double)input / 2));
-            var origincolumn = Convert.ToInt32(Math.Ceiling((double)input / 2));
-            var currentNumber = 1;
-            var amount = 1;
+            var input = 289326;
 
-            while (currentNumber <= maxNumber)
+            var side = (int)Math.Ceiling(Math.Sqrt(input));
+            if (!((side % 1) == 0)) side--;
+
+            var maxNumber = side * side;
+            var maxNumberSmallerCircle = (side - 1) * (side - 1);
+            var array = Enumerable.Range(maxNumberSmallerCircle, maxNumber).ToArray();
+
+            var index = Array.FindIndex(array, x => x == input);
+            while (index > side) index = index - side;
+            if (index > side / 2) index = index - side / 2;
+
+            _solution = (index + side / 2);
+            Console.WriteLine($"Manhattan Distance: {_solution}");
+
+            // Part 2
+
+            _matrix = new int[side, side];
+            _row = side / 2;
+            _column = side / 2;
+            var amount = 1;
+            var movement = Directions.right;
+
+            while (_solution2 < input)
             {
                 // move right
-                for (int i = 0; i < amount; i++)
+                for (int i = 0; i < amount && _solution2 < input; i++)
                 {
-                    matrix[row, column] = currentNumber;
-                    currentNumber++;
-                    column++;
+                    var value = _solution2 = GetValueOfNeighbourSum();
+
+                    _matrix[_row, _column] = value;
+
+                    switch (movement)
+                    {
+                        case Directions.right:
+                            _column++;
+                            break;
+                        case Directions.up:
+                            _row--;
+                            break;
+                        case Directions.left:
+                            _column--;
+                            break;
+                        case Directions.down:
+                            _row++;
+                            break;
+                    }
                 }
 
-                if (currentNumber > maxNumber) break;
+                if (movement == Directions.down) movement = Directions.right;
+                else movement++;
 
-                // move up
-                for (int i = 0; i < amount; i++)
-                {
-                    matrix[row, column] = currentNumber;
-                    currentNumber++;
-                    row--;
-                }
-                amount++;
-
-                if (currentNumber > maxNumber) break;
-
-                // move left
-                for (int i = 0; i < amount; i++)
-                {
-                    matrix[row, column] = currentNumber;
-                    currentNumber++;
-                    column--;
-                }
-
-                if (currentNumber > maxNumber) break;
-
-                // move down
-                for (int i = 0; i < amount; i++)
-                {
-                    matrix[row, column] = currentNumber;
-                    currentNumber++;
-                    row++;
-                }
-                amount++;
+                if (movement == Directions.left || movement == Directions.right) amount++;
             };
-
-            //Display Matrix
-
-            for (int r = 0; r < input; r++)
-            {
-                for (int c = 0; c < input; c++)
-                {
-                    Console.Write("{0,4}", matrix[r, c]);
-                }
-                Console.WriteLine();
-            }
+            Console.WriteLine($"First higher value: {_solution2}");
             Console.ReadLine();
+        }
 
-            int w = matrix.GetLength(0); // width
-            int h = matrix.GetLength(1); // height
+        private static int GetValueOfNeighbourSum()
+        {
+            var sum = _matrix[_row - 1, _column - 1] + _matrix[_row - 1, _column] + _matrix[_row - 1, _column + 1] + _matrix[_row, _column - 1] + _matrix[_row, _column + 1] + _matrix[_row + 1, _column - 1] + _matrix[_row + 1, _column] + _matrix[_row + 1, _column + 1];
+            return sum != 0 ? sum : 1;
+        }
 
-            var coordinate = Tuple.Create(-1, -1);
-
-            for (int x = 0; x < w; ++x)
-            {
-                for (int y = 0; y < h; ++y)
-                {
-                    if (matrix[x, y].Equals(maxNumber))
-                        Tuple.Create(x, y);
-                }
-            }
-
-            var stepsToCenter = coordinate.Item1 - originrow;
-            var stepsToCenter2 = coordinate.Item2 - origincolumn;
-
-            var totalsteps = stepsToCenter + stepsToCenter2;
-
-            Console.WriteLine("Distance: " + totalsteps);
-            Console.ReadLine();
+        private enum Directions
+        {
+            right,
+            up,
+            left,
+            down
         }
     }
 }
