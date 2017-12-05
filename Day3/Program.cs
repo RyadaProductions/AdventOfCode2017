@@ -9,22 +9,21 @@ namespace Day3
 {
     class Program
     {
+        private const int _input = 289326;
         private static int _solution, _solution2;
         private static int _row, _column;
         private static int[,] _matrix;
 
         static void Main(string[] args)
         {
-            var input = 289326;
-
-            var side = (int)Math.Ceiling(Math.Sqrt(input));
-            if (!((side % 1) == 0)) side--;
+            var side = (int)Math.Ceiling(Math.Sqrt(_input));
+            if (side % 1 != 0) side--;
 
             var maxNumber = side * side;
             var maxNumberSmallerCircle = (side - 1) * (side - 1);
             var array = Enumerable.Range(maxNumberSmallerCircle, maxNumber).ToArray();
 
-            var index = Array.FindIndex(array, x => x == input);
+            var index = Array.FindIndex(array, x => x == _input);
             while (index > side) index = index - side;
             if (index > side / 2) index = index - side / 2;
 
@@ -37,12 +36,12 @@ namespace Day3
             _row = side / 2;
             _column = side / 2;
             var amount = 1;
-            var movement = Directions.right;
+            var movement = Directions.Right;
 
-            while (_solution2 <= input)
+            while (_solution2 <= _input)
             {
-                // move right
-                for (int i = 0; i < amount && _solution2 < input; i++)
+                // move Right
+                for (var i = 0; i < amount && _solution2 < _input; i++)
                 {
                     var value = _solution2 = GetValueOfNeighbourSum();
 
@@ -50,25 +49,25 @@ namespace Day3
 
                     switch (movement)
                     {
-                        case Directions.right:
+                        case Directions.Right:
                             _column++;
                             break;
-                        case Directions.up:
+                        case Directions.Up:
                             _row--;
                             break;
-                        case Directions.left:
+                        case Directions.Left:
                             _column--;
                             break;
-                        case Directions.down:
+                        case Directions.Down:
                             _row++;
                             break;
                     }
                 }
 
-                if (movement == Directions.down) movement = Directions.right;
+                if (movement == Directions.Down) movement = Directions.Right;
                 else movement++;
 
-                if (movement == Directions.left || movement == Directions.right) amount++;
+                if (movement == Directions.Left || movement == Directions.Right) amount++;
             };
             Console.WriteLine($"First higher value: {_solution2}");
             Console.ReadLine();
@@ -82,10 +81,10 @@ namespace Day3
 
         private enum Directions
         {
-            right,
-            up,
-            left,
-            down
+            Right,
+            Up,
+            Left,
+            Down
         }
     }
 }
