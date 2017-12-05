@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Day5
             var index = 0;
             var index2 = 0;
 
-            while (true)
+            while ((index < jumps.Length || index2 < jumps2.Length) && (index >= 0 || index2 >= 0))
             {
                 if (index < jumps.Length)
                 {
@@ -36,7 +37,6 @@ namespace Day5
                     index2 += jumpaction;
                     _solution2++;
                 }
-                if (index >= jumps.Length && index2 >= jumps2.Length) break;
             }
 
             Console.WriteLine($"Times you jump: {_solution}");
