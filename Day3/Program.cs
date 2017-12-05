@@ -39,7 +39,7 @@ namespace Day3
             var amount = 1;
             var movement = Directions.right;
 
-            while (_solution2 < input)
+            while (_solution2 <= input)
             {
                 // move right
                 for (int i = 0; i < amount && _solution2 < input; i++)
