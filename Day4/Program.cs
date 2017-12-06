@@ -35,7 +35,6 @@ namespace Day4
 
             Console.WriteLine($"Valid passwords: {_solution}");
             Console.WriteLine($"Valid passwords 2: {_solution2}");
-            Console.ReadLine();
         }
 
         const string input = @"vxjtwn vjnxtw sxibvv mmws wjvtxn icawnd rprh

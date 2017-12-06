@@ -12,9 +12,6 @@ namespace Day1
 
         static void Main(string[] args)
         {
-            var sw = new Stopwatch();
-            sw.Start();
-
             var circularAhead = _input.Length / 2;
 
             Parallel.For(0, _input.Length, index =>
@@ -27,9 +24,6 @@ namespace Day1
                 var nextHalf = (index + circularAhead) % _input.Length;
                 if (Equals(_input[index], _input[nextHalf])) AddToSum2(_input[index]);
             });
-
-            sw.Stop();
-            Console.WriteLine($"Speed: {sw.Elapsed}");
             
             Console.WriteLine($"Captcha1: {_solution}");
             Console.WriteLine($"Captcha2: {_solution2}");

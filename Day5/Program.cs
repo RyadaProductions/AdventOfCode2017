@@ -41,7 +41,6 @@ namespace Day5
 
             Console.WriteLine($"Times you jump: {_solution}");
             Console.WriteLine($"Times you jump2: {_solution2}");
-            Console.ReadLine();
         }
 
         const string input = @"0

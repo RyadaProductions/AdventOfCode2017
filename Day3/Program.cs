@@ -70,7 +70,6 @@ namespace Day3
                 if (movement == Directions.Left || movement == Directions.Right) amount++;
             };
             Console.WriteLine($"First higher value: {_solution2}");
-            Console.ReadLine();
         }
 
         private static int GetValueOfNeighbourSum()

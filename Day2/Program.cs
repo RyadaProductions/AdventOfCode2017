@@ -45,7 +45,6 @@ namespace Day2 {
 
             Console.WriteLine($"Checksum: {_solution}");
             Console.WriteLine($"Checksum: {_solution2}");
-            Console.ReadKey();
         }
     }
 }
